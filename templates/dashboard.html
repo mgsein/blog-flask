@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block content%} {% for message in
+get_flashed_messages() %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{message}}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endfor %}
+<h2>Dashboard</h2>
+<br />
+<br />
+<p>You are Logged In!</p>
+
+<div class="card">
+  <div class="card-header">{{current_user.username}}</div>
+  <div class="card-body">
+    <h5 class="card-title">
+      <strong>Name: </strong> {{current_user.name}} <br />
+    </h5>
+    <p class="card-text">
+      <strong>Username: </strong>{{current_user.username}} <br />
+      <strong>User ID: </strong>{{current_user.id}} <br />
+      <strong>Email: </strong>{{current_user.email}} <br />
+      <strong>Favorite Color: </strong>{{current_user.favorite_color}} <br />
+      <strong>Date Joined: </strong>{{current_user.date_added}} <br />
+    </p>
+    <a href="{{ url_for('logout') }}" class="btn btn-primary">Logout</a>
+    <a
+      href="{{ url_for('update', id=current_user.id) }}"
+      class="btn btn-secondary"
+      >Update Profile</a
+    >
+    <a href="{{url_for('delete', id=current_user.id)}}" class="btn btn-danger"
+      >Delete</a
+    >
+  </div>
+</div>
+<br/>
+<div class="card">
+  <div class="card-header">Update user {{current_user.username}}</div>
+  <div class="card-body">
+    <p class="card-text">
+        <form action="/dashboard" method="POST">
+            {{form.hidden_tag()}} {{form.name.label(class="form-label")}}
+            {{form.name(class="form-control", value=name_to_update.name)}}
+            <br />
+            {{form.hidden_tag()}} {{form.username.label(class="form-label")}}
+            {{form.username(class="form-control", value=name_to_update.username)}}
+            <br />
+            {{form.email.label(class="form-label")}} {{form.email(class="form-control",
+            value=name_to_update.email)}}
+            <br />
+            {{form.favorite_color.label(class="form-label")}}
+            {{form.favorite_color(class="form-control",
+            value=name_to_update.favorite_color)}}
+            <br />
+            {{form.submit(class="btn btn-primary")}}
+            <a href="{{url_for('delete', id=current_user.id)}}" class="btn btn-danger">Delete</a>
+          </form>
+    </p>
+  </div>
+</div>
+<br />
+{% endblock %}
